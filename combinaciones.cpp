@@ -1,0 +1,39 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//En la ultima celda queda las combinaciones de n tomadas de m
+nat CombinacionesDin(nat n, nat m){
+	Matriz<nat> comb(n+1, m+1);
+	for(nat i=0; i<=n;i++){
+		for(nat j=0; i<=i;j++){
+			if (j==0 || i==j)
+				com[i][j]=1;
+			else
+				comb[i][j] = comb[i-1][j] + comb[i-1][j-1]
+		}
+	}
+	
+	return comb[n][m]
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Memorizacion
+nat CombinacionesMem(nat n, nat m){
+	Matriz<nat> comb(n+1, m+1);
+	return CombinacionesMem(nat n, nat m, comb);
+}
+nat CombinacionesMem(nat n, nat m, Matriz<nat> comb){
+	if (comb[n][m]==0){
+		if (n==m || m==0)
+			com[i][j]=1;
+		else
+			comb[i][j] = CombinacionesMem(n-1,m,comb)+CombinacionesMem(n-1, m-1, comb);
+	}
+	return comb[n][m];
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Dividir para conquistar
+nat Combinaciones(nat n, nat m){
+	if (n==m || m=0) 
+		return 1;
+	else
+		return Combinaciones(n-1, m) + Combinaciones(n-1, m-1);
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
