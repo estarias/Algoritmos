@@ -172,36 +172,23 @@ Array<nat> MochilaDinamicaElementosRepetidos(Array<nat> peso, Array<nat> valor, 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Mochila Backtracking con cantidad de elementos disponibles 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Arra<nat> MochilaBacktrackingElementosRepetidos(Array<Item> items, nat capacidad){
-
-	Array<nat> cantActual(items.Largo, 0);
-	Array<nat> cantSol(items.Largo, 0);
-	nat mejorValor = 0;
-
-	MochilaBacktrackingElementosRepetidosEx(items, capacidad, cantActual, 0, cantSol, mejorValor);
-
-	return catnSol;
-}
-
-void MochilaBacktrackingElementosRepetidosEx(Array<Item> items, nat capacidad, nat it, 
-											Array<nat> cantActual, nat valor, 
-											Array<nat> cantSol, nat & mejorValor){
+void MochilaBacktrackingElementosRepetidosEx(Array<Item> items, nat c, nat it, 
+											Array<nat> cantActual, Array<nat> cantMejor
+											nat valorActual, nat & mejorValor){
 	if (it == items.Largo){
-		if (valor > mejorValor)
-			mejorValor = valor;
-			Array<nat>::Copiar(cantActual, cantSol);
+		if (valorActual > mejorValor)
+			mejorValor = valorActual;
+			Array<nat>::Copiar(cantActual, cantMejor);
 		}
-		return;
-	}
-
-	for(nat k=0; k<=items[it].cantMax && k*items[it].peso <= capacidad; k++){
-		cantActual[it] = k; //Agregar 
-		MochilaBacktrackingElementosRepetidosEx(items, capacidad - k*items[it].peso, it + 1, 
-												cantActual, valor + k*items[it].valor, 
-												cantSol, mejorValor);
-		cantActual[it]=0; //Borrar
-	}
+	}else{
+		for(nat k=0; k<=items[it].cantMax && k*items[it].peso <= c; k++){
+			cantActual[it] = k; //Agregar 
+			MochilaBacktrackingElementosRepetidosEx(items, c - k*items[it].peso, it + 1, 
+													cantActual, cantMejor,
+													valorActual + k*items[it].valor, mejorValor);
+			cantActual[it]=0; //Borrar
+		}
 	
-	
+	}
 }
 
