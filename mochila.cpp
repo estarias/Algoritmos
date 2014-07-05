@@ -10,13 +10,13 @@ Elementos son las lineas, q tienen un precio y una distTotal. Tambien tengo dine
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Dividir para conquistar
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int mochilaB(int capacidad,int N,Array<int> valor,Array<int> peso){
-    if(capacidad==0) return 0;
-    if(capacidad<0) return -INFINITO;
-    if(capacidad>=0 && N<0) return 0;
+int mochilaB(int c,int n,Array<int> valor,Array<int> peso){
+    if(c==0) return 0;
+    if(C<0) return -INFINITO;
+    if(c>=0 && c<0) return 0;
 
-    return maxDe3(mochilaB(capacidad- peso[N],N-1,valor,peso) + valor[N],
-                mochilaB(capacidad,N-1,valor,peso),
+    return maxDe3(mochilaB(c - peso[n],n-1,valor,peso) + valor[n],
+                mochilaB(c,n-1,valor,peso),
                 0);
 				
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,11 +115,6 @@ int MochilaMem(int capacidad, int N, Array<int>valor, Array<int>peso){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Mochila Dinamica con cantidad de elementos disponibles 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-struct Item{
-	nat peso;
-	nat valor;
-	nat cantMax;
-}
 
 struct Prod{
 	nat valor;
@@ -136,43 +131,42 @@ struct Prod{
 	}
 }
 
-Array<nat> MochilaDinamicaElementosRepetidos(Array<Item> items, nat capacidad){
-	Matriz<Prod> pr (items.Largo, capacidad+1);
-	
+Array<nat> MochilaDinamicaElementosRepetidos(Array<nat> peso, Array<nat> valor, Array<nat> cantidad, nat n, nat c){
+	Matriz<Prod> m (n, c+1);
 	//la matriz ya esta inicializada porque hice los constructores de prod.
 	
-	for (nat i=1; i<items.Largo;i++){
-		for (nat j=1; i<=capacidad;j++){
-			if (j < items[i].peso){
-				pr[i,j] = Prod(pr[i-1][j].valor, 0);
+	for (nat i=1; i<n;i++){
+		for (nat j=1; i<c+1;j++){
+			if (j < peso[i]){
+				m[i,j] = Prod(m[i-1][j].valor, 0);
 			}else{
-				nat val1 = items[i].cantMax > 0 ? items[i].valor + pr[i-1][j-items[i].peso].valor : 0; //aplana un if. //hasta acá es igual q la mochila vieja.
-				nat cantidad = pr[i][j-items[i].peso].cantidad;
-				nat valI = pr[i][j-items[i].peso].valor;
+				nat val1 = cantidad[i] > 0 ? valor[i] + m[i-1][j-peso[i]].valor : 0; //aplana un if. 
+				nat cant = m[i][j-peso[i]].cantidad;
+				nat val = m[i][j-peso[i]].valor;
 				
-				if (valI < items[i].cantMax){
-					cantidad++;
-					valI+= items[i].valor;
+				if (val < cantidad[i]){
+					cant++;
+					val+= valor[i];
 				}
 				
-				pr[i][j] = Prod(pr[i-1][j].valor, 0);
-				if (val1 > pr[i][j].valor)
-					pr[i][j]= Prod(val1, 1);
-				if (valI > pr[i][j].valor)
-					pr[i][j]= Prod(valI, cantidad);				
+				m[i][j] = Prod(m[i-1][j].valor, 0);
+				if (val1 > m[i][j].valor) 
+					m[i][j]= Prod(val1, 1);
+				if (val > m[i][j].valor)
+					m[i][j]= Prod(val, cant);				
 			}
 		}
 	}
 	
 	//armar la solucion
-	Array<nat> res (items.Largo, 0); //voy a retornar, cuantos elementos voya tener de cada tipo en la mochila.
-	nat i = items.Largo;
-	nat j = capacidad;
+	Array<nat> res (n, 0); //voy a retornar, cuantos elementos voya tener de cada tipo en la mochila.
+	nat i = n;
+	nat j = c;
 	
 	while (i>0 && j >0){
 		i--;
-		res[i] = pr[i][j].cantidad;
-		j -= res[i]*items[i].peso;
+		res[i] = m[i][j].cantidad;
+		j -= res[i]*peso[i];
 	}
 	
 	return res;
