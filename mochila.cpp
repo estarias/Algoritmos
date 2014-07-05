@@ -150,23 +150,21 @@ Array<nat> MochilaDinamicaElementosRepetidos(Array<nat> peso, Array<nat> valor, 
 				}
 				
 				m[i][j] = Prod(m[i-1][j].valor, 0);
-				if (val1 > m[i][j].valor) 
-					m[i][j]= Prod(val1, 1);
-				if (val > m[i][j].valor)
-					m[i][j]= Prod(val, cant);				
+				if (m[i][j].valor < val1) m[i][j]= Prod(val1, 1);
+				if (m[i][j].valor < val) m[i][j]= Prod(val, cant);				
 			}
 		}
 	}
 	
 	//armar la solucion
 	Array<nat> res (n, 0); //voy a retornar, cuantos elementos voya tener de cada tipo en la mochila.
-	nat i = n;
+	nat i = n-1;
 	nat j = c;
 	
 	while (i>0 && j >0){
-		i--;
 		res[i] = m[i][j].cantidad;
 		j -= res[i]*peso[i];
+		i--;
 	}
 	
 	return res;
