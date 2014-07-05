@@ -13,7 +13,7 @@ Elementos son las lineas, q tienen un precio y una distTotal. Tambien tengo dine
 int mochilaB(int c,int n,Array<int> valor,Array<int> peso){
     if(c==0) return 0;
     if(C<0) return -INFINITO;
-    if(c>=0 && c<0) return 0;
+    if(c>=0 && n<0) return 0;
 
     return maxDe3(mochilaB(c - peso[n],n-1,valor,peso) + valor[n],
                 mochilaB(c,n-1,valor,peso),

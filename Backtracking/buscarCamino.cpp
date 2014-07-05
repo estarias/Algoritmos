@@ -16,6 +16,9 @@ void Sistema::buscoCaminoMasCorto(V origen, V destino, G g
 			tiempoMejor = tiempoActual;
 			distMejor = distActual;
 			caminoMejor = caminoActual->Clonar();
+			//Si quiero todos los caminos, no pregunto si lo mejoré:
+			//Puntero<Lista<Puntero<Estacion>>> c = caminoActual->Clonar();
+			//caminos->Agregar(c);
 		}else{
 			foreach(v, g->Adyacentes(origen)) //seleccionarLaSiguienteAlternativa();
 				nat dist = g->getDist(o,v);//CostoDistancia(g,origen,v)
