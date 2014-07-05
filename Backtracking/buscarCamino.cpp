@@ -3,7 +3,7 @@ tiempo -> tope
 
 void Sistema::buscoCaminoMasCorto(V origen, V destino, G g
 	nat distActual, nat &distMejor, 
-	nat tiempoActual, nat tiempoMax, nat &tiempoMejor, 
+	nat tiempoActual, nat &tiempoMejor, nat tiempoMax, 
 	Puntero<Lista<V>> &caminoActual,  Puntero<Lista<V>> &caminoMejor, 
 	Puntero<Lista<V>> noPasar){
 	
@@ -17,15 +17,13 @@ void Sistema::buscoCaminoMasCorto(V origen, V destino, G g
 			distMejor = distActual;
 			caminoMejor = caminoActual->Clonar();
 		}else{
-			for(Iterador<V> it = g->Adyacentes(origen);it.HayElemento();it++){
-				V v= (V)it.ElementoActual();//seleccionarLaSiguienteAlternativa();
-
+			foreach(v, g->Adyacentes(origen)) //seleccionarLaSiguienteAlternativa();
 				nat dist = g->getDist(o,v);//CostoDistancia(g,origen,v)
 				nat tiempo = g->getTiempo(o,v);
 				
 				buscoCaminoMasCorto(v,destino,g,
 					distActual+dist, distMejor,
-					tiempoActual+tiempo,tiempoMax, tiempoMejor, 
+					tiempoActual+tiempo, tiempoMejor, tiempoMax,
 					caminoActual,caminoMejor, noPasar);
 			};
 		};

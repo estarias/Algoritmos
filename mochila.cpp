@@ -22,8 +22,9 @@ int mochilaB(int capacidad,int N,Array<int> valor,Array<int> peso){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Mochila dinamica
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-nat Sistema::mochilaDinamica(Array<int> peso, Array<int> valor, Array<int> elemento, int n, int c, Puntero<Lista<pLinea>> &sol){
-
+void mochilaDinamica(Array<int> peso, Array<int> valor, Array<int> elemento, int n, int c){
+	nat n = elemento.Largo;
+	
 	Matriz<int> m(n,c+1);
 	int i, j;
 	
@@ -43,22 +44,23 @@ nat Sistema::mochilaDinamica(Array<int> peso, Array<int> valor, Array<int> eleme
 
 	i = n-1;
 	j = c;
-
+	
 	while(i>0 && j>0){
 		if (j >= peso[i] && m[i][j] == valor[i] + m[i-1][j-peso[i]]){
-			int nroLinea = elemento[i];
-			sol->AgregarFin(arrayLineas[nroLinea]);
+			cout << "Utilizo elemento: " << i << endl;
 			j = j - peso[i];
 		}		
 		i--;
 	}
 
-	return m[n-1][c];
+	cout << "Valor Óptimo " << m[n-1][c];
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Mochila Backtracking
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Sistema::mochilaBacktracking(Puntero<Lista<Puntero<Item>>> items, int peso, Puntero<Lista<Puntero<Item>>> &solActual, Puntero<Lista<Puntero<Item>>> &mejorSol, int valor, int &mejorValor){
+void mochilaBacktracking(Puntero<Lista<Puntero<Item>>> items, int peso, 
+						Puntero<Lista<Puntero<Item>>> &solActual, Puntero<Lista<Puntero<Item>>> &mejorSol, 
+						int valor, int &mejorValor){
 
 	//CASO BASE
 	if (items->EstaVacia()){ 
@@ -117,50 +119,50 @@ int MochilaMem(int capacidad, int N, Array<int>valor, Array<int>peso){
 //Mochila Dinamica con cantidad de elementos disponibles 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct Item{
-	nat costo;
-	nat ganancia;
+	nat peso;
+	nat valor;
 	nat cantMax;
 }
 
 struct Prod{
-	nat ganancia;
-	nat cantI;
+	nat valor;
+	nat cantidad;
 	
 	Prod(){
-		ganancia = 0;
-		cantI = 0;
+		valor = 0;
+		cantidad = 0;
 	}
 	
-	Prod(nat g, nat c){
-		ganancia = g;
-		cantI = c;
+	Prod(nat v, nat c){
+		valor = v;
+		cantidad = c;
 	}
 }
 
-Array<nat> MochilaDinamicaElementosRepetidos(Array<Item> items, nat capital){
-	Matriz<Prod> pr (items.Largo, capital+1);
+Array<nat> MochilaDinamicaElementosRepetidos(Array<Item> items, nat capacidad){
+	Matriz<Prod> pr (items.Largo, capacidad+1);
 	
 	//la matriz ya esta inicializada porque hice los constructores de prod.
 	
 	for (nat i=1; i<items.Largo;i++){
-		for (nat c=1; i<=capital;c++){
-			if (c < items[i].costo){
-				pr[i,c] = Prod(pr[i-1][c].ganancia, 0);
+		for (nat j=1; i<=capacidad;j++){
+			if (j < items[i].peso){
+				pr[i,j] = Prod(pr[i-1][j].valor, 0);
 			}else{
-				nat gan1 = items[i].cantMax > 0 ? items[i].ganancia + pr[i-1][c-items[i].costo].ganancia : 0; //aplana un if. //hasta acá es igual q la mochila vieja.
-				nat cantI = pr[i][c-items[i].costo].cantI;
-				nat ganI = pr[i][c-items[i].costo].ganancia;
+				nat val1 = items[i].cantMax > 0 ? items[i].valor + pr[i-1][j-items[i].peso].valor : 0; //aplana un if. //hasta acá es igual q la mochila vieja.
+				nat cantidad = pr[i][j-items[i].peso].cantidad;
+				nat valI = pr[i][j-items[i].peso].valor;
 				
-				if (ganI < items[i].cantMax){
-					cantI++;
-					ganI+= items[i].ganancia;
+				if (valI < items[i].cantMax){
+					cantidad++;
+					valI+= items[i].valor;
 				}
 				
-				pr[i][c] = Prod(pr[i-1][c].ganancia, 0);
-				if (gan1 > pr[i][c].ganancia)
-					pr[i][c]= Prod(gan1, 1);
-				if (ganI > pr[i][c].ganancia)
-					pr[i][c]= Prod(ganI, cantI);				
+				pr[i][j] = Prod(pr[i-1][j].valor, 0);
+				if (val1 > pr[i][j].valor)
+					pr[i][j]= Prod(val1, 1);
+				if (valI > pr[i][j].valor)
+					pr[i][j]= Prod(valI, cantidad);				
 			}
 		}
 	}
@@ -168,12 +170,12 @@ Array<nat> MochilaDinamicaElementosRepetidos(Array<Item> items, nat capital){
 	//armar la solucion
 	Array<nat> res (items.Largo, 0); //voy a retornar, cuantos elementos voya tener de cada tipo en la mochila.
 	nat i = items.Largo;
-	nat c = capital;
+	nat j = capacidad;
 	
-	while (i>0 && c >0){
+	while (i>0 && j >0){
 		i--;
-		res[i] = pr[i][c].CantI;
-		c -= res[i]*items[i].costo;
+		res[i] = pr[i][j].cantidad;
+		j -= res[i]*items[i].peso;
 	}
 	
 	return res;
@@ -181,37 +183,36 @@ Array<nat> MochilaDinamicaElementosRepetidos(Array<Item> items, nat capital){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Mochila Backtracking con cantidad de elementos disponibles 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Arra<nat> MochilaBacktrackingElementosRepetidos(Array<Producto> productos, nat capital){
+Arra<nat> MochilaBacktrackingElementosRepetidos(Array<Item> items, nat capacidad){
 
-	Array<nat> cantActual(productos.Largo, 0);
-	Array<nat> cantSol(productos.Largo, 0);
-	nat ganSol = 0;
+	Array<nat> cantActual(items.Largo, 0);
+	Array<nat> cantSol(items.Largo, 0);
+	nat mejorValor = 0;
 
-	MochilaBacktrackingElementosRepetidosEx(productos, capital, cantActual, 0, cantSol, ganSol);
+	MochilaBacktrackingElementosRepetidosEx(items, capacidad, cantActual, 0, cantSol, mejorValor);
 
 	return catnSol;
 }
 
-void MochilaBacktrackingElementosRepetidosEx(Array<Producto> productos, nat capital, nat p, Array<nat> cantActual, nat ganActual, Array<nat> cantSol, nat & ganSol){
-	if (p==productos.Largo){
-		if (ganActual > ganSol)
-			ganSol = ganActual;
+void MochilaBacktrackingElementosRepetidosEx(Array<Item> items, nat capacidad, nat it, 
+											Array<nat> cantActual, nat valor, 
+											Array<nat> cantSol, nat & mejorValor){
+	if (it == items.Largo){
+		if (valor > mejorValor)
+			mejorValor = valor;
 			Array<nat>::Copiar(cantActual, cantSol);
 		}
-	}else{
-		for(nat i=0; i<=productos[p].cantMax; i++){
-			nat costoI = i*productos[p].costo;
-			if (costoI <= capital){
-				cantActual[p] = i;
-				MochilaBacktrackingElementosRepetidosEx(productos, capital - costoI, p+1, 
-							cantActual, ganActual+i*productos[p].valor, cantSol, ganSol);
-				
-				cantActual[p]=0;
-			}else{
-				break;
-			}
-		}
+		return;
 	}
+
+	for(nat k=0; k<=items[it].cantMax && k*items[it].peso <= capacidad; k++){
+		cantActual[it] = k; //Agregar 
+		MochilaBacktrackingElementosRepetidosEx(items, capacidad - k*items[it].peso, it + 1, 
+												cantActual, valor + k*items[it].valor, 
+												cantSol, mejorValor);
+		cantActual[it]=0; //Borrar
+	}
+	
 	
 }
 
