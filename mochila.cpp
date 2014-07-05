@@ -22,8 +22,7 @@ int mochilaB(int capacidad,int N,Array<int> valor,Array<int> peso){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Mochila dinamica
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void mochilaDinamica(Array<int> peso, Array<int> valor, Array<int> elemento, int n, int c){
-	nat n = elemento.Largo;
+void mochilaDinamica(Array<int> peso, Array<int> valor, int n, int c){
 	
 	Matriz<int> m(n,c+1);
 	int i, j;
@@ -37,8 +36,6 @@ void mochilaDinamica(Array<int> peso, Array<int> valor, Array<int> elemento, int
 				m[i][j] = m[i-1][j];
 			else
 				m[i][j] = max(m[i-1][j], valor[i] + m[i-1][j-peso[i]]);
-			//otra forma igual:
-			//m[i][j] = j < peso[i] ? m[i-1][j] : max(m[i-1][j], valor[i] + m[i-1][j-peso[i]]);
 		}
 	}
 
@@ -48,7 +45,7 @@ void mochilaDinamica(Array<int> peso, Array<int> valor, Array<int> elemento, int
 	while(i>0 && j>0){
 		if (j >= peso[i] && m[i][j] == valor[i] + m[i-1][j-peso[i]]){
 			cout << "Utilizo elemento: " << i << endl;
-			j = j - peso[i];
+			j -= peso[i];
 		}		
 		i--;
 	}
