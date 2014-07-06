@@ -19,8 +19,7 @@ void DarCambioDivideAndConquer(Array<nat> monedas, nat monto, Array<nat> usadas,
 	//como estan ordenadas de menor a mayor, tomo la mas grande, y hago mientras me sirva para dar cambio, la doy. 'm' es el tipo de moneda. (pos del array)
 	if (monto == 0 || m==monedas.Largo) return;
 	nat pos = monedas.Largo - m -1;
-	nat cant = monto / monedas[pos]; // es una division entera. me devuelve  la cantidad de monedas que necesito.
-	usadas[pos] = cant;
+	usadas[pos] = monto / monedas[pos];// es una division entera. me devuelve  la cantidad de monedas que necesito.
 	monto = monto % monedas[pos];
 	DarCambioDivideAndConquer(monedas, monto, usadas, m+1);
 }

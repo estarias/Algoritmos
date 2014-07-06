@@ -1,35 +1,28 @@
-quickSort
+/***quickSort
 
 Por caso: O(n^2)
 Mejor caso: O(nLog(n)) (igual q merge sort) 
+Ref: http://www.fing.edu.uy/inco/cursos/prog3/wiki/uploads/Site/Analisis%20del%20problema%20de%20Sorting_v2.1.pdf
 
-void quicksort(int[] a, int izq, int der){
-	int pivot = particion(a, izq, der);
-	int i = izq;
-	int j = der -1;
-	for (;;){
-		while (a[i] < pivot) i++;
-		while (a[j] >= pivot) j--;
-		if (i<j) 
-			intercambio(a[i], a[j]);
-		else
-			break;
-	}
-	intercambio(a[i], a[der-1]);
+***/
+
+void quickSort(int[] a, int ini, int fin){
+	if (ini >= fin) return;
+	int posPivote = particion(a, ini, fin);
+	quickSort(a, ini, posPivote-1);
+	quickSort(a, posPivote+1, fin);
 }
 
-int divide(int []a , int izq, int der) {
-    int medio = (izq+der)/2;
-	if (a[medio]<a[izq])
-		intercambio(a[medio], a[izq]);
+int particion(Array<int> a, int ini, int fin) {
+	int pivote = a[ini];
+	int posPivote = ini;
 	
-	if (a[der]<a[izq])
-		intercambio(a[der], a[izq]);
-	
-	if (a[der]<a[medio])
-		intercambio(a[der], v[izq]);
-	
-	intercambio(a[medio], a[der-1]);
-	
-	return a[der-1];
+	for (int i = ini+1; i<=fin; i++){
+		if (a[i]<pivote){
+			posPivote++;
+			intercambio(a, posPivote, i);
+		}
+	}
+	intercambio(a, ini, posPivote);
+	return posPivote;
 }

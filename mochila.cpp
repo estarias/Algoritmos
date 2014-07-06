@@ -176,7 +176,7 @@ void MochilaBacktrackingElementosRepetidosEx(Array<Item> items, nat c, nat it,
 											Array<nat> cantActual, Array<nat> cantMejor
 											nat valorActual, nat & mejorValor){
 	if (it == items.Largo){
-		if (valorActual > mejorValor)
+		if (valorActual > mejorValor){
 			mejorValor = valorActual;
 			Array<nat>::Copiar(cantActual, cantMejor);
 		}
