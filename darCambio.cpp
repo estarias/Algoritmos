@@ -35,10 +35,10 @@ Debo ver en que orden cargar las estructuras, para no repetir calculos.
 */
 
 Array<nat> DarCambioDin(Array<nat> monedas, nat monto){
-	Matriz<nat> m(monedas.Largo, monto+1);
+	Matriz<nat> m (monedas.Largo, monto+1);
 	
 	for (nat i=0; i<monedas.Largo; i++){
-		for (nat j=0; i<=monto; j++){
+		for (nat j=0; i<monto+1; j++){
 			if (i==0)
 				m[0][j] = j/monedas[0];
 			else if(j< monedas[i])

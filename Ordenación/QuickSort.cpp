@@ -6,7 +6,7 @@ Ref: http://www.fing.edu.uy/inco/cursos/prog3/wiki/uploads/Site/Analisis%20del%2
 
 ***/
 
-void quickSort(int[] a, int ini, int fin){
+void quickSort(Array<int> a, int ini, int fin){
 	if (ini >= fin) return;
 	int posPivote = particion(a, ini, fin);
 	quickSort(a, ini, posPivote-1);

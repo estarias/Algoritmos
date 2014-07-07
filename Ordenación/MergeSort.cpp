@@ -1,25 +1,45 @@
 mergeSort: divide el arreglo a la mitad
 Orden (nLog(n))
-void MSort(int[] a, int[] temp, int izq, int der){
-	if (izqz<der){
-		medio = (izq+der)/2;
-		MSort(a, izq, medio);
-		MSort(a, medio+1, der);
-		merge(a, temp, izq, medio+1, der);
-	}
-}
-void merge(int[] a, int[] temp, int izqPos, int derPos, int derFin){
-	int izqFin = derPos - 1;
-	int pos = izqPos;
-	while(izqPos <=izqFin && derPos <= derFin){
-		if (a[izqPos]<=a[derPos])
-			temp[pos++] = a[izqPos++];
-		else
-			temp[pos++] = a[derPos++];
-	}
-	
+void mergesort(Array<nat> a, Array<nat> b, nat izq, nat der)
+{
+    if(izq<der){
+        nat pivot=(izq+der)/2;
+        mergesort(a,b,izq,pivot);
+        mergesort(a,b,pivot+1,der);
+        merge(a,b,izq,pivot,der);
+    }
 }
 
+void merge(Array<nat>a, Array<nat>b, nat izq, nat pivot, nat der)
+{
+    nat h,i,j,k;
+    h=izq;
+    i=izq;
+    j=pivot+1;
+ 
+    while((h<=pivot)&&(j<=der)){
+        if(a[h]<=a[j]){
+            b[i]=a[h];
+            h++;
+        }else{
+            b[i]=a[j];
+            j++;
+        }
+        i++;
+    }
+    if(h>pivot){
+        for(k=j; k<=der; k++){
+            b[i]=a[k];
+            i++;
+        }
+    }else{
+        for(k=h; k<=pivot; k++){
+            b[i]=a[k];
+            i++;
+        }
+    }
+    for(k=izq; k<=der; k++) a[k]=b[k];
+}
 Cáculo de orden en página 79.
 
 //O(nLogn):
