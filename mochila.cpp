@@ -144,7 +144,7 @@ Array<nat> MochilaDinamicaElementosRepetidos(Array<nat> peso, Array<nat> valor, 
 				nat cant = m[i][j-peso[i]].cantidad;
 				nat val = m[i][j-peso[i]].valor;
 				
-				if (val < cantidad[i]){
+				if (cantidad[i] < val){
 					cant++;
 					val+= valor[i];
 				}

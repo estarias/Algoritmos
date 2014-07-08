@@ -48,7 +48,7 @@ Array<nat> DarCambioDin(Array<nat> monedas, nat monto){
 		}
 	}
 	
-	Array<nat> usadas(monedas.Largo, 0);
+	/*Array<nat> usadas(monedas.Largo, 0);
 	nat i = 0;
 	nat j = monto;
 	while (j>0){
@@ -61,8 +61,20 @@ Array<nat> DarCambioDin(Array<nat> monedas, nat monto){
 		}else{ //
 			break;
 		}			
-	}
+	}*/
 	
+	Array<nat> usadas(monedas.Largo, 0);
+	nat k = 0;
+	nat j = monto;
+	nat i = monedas.Largo - 1;
+	while (i > 0 && j>0 ){		
+		if(j >= monedas[i] && m[i][j] == m[i-1][j]){  //usé esta moenda, o el monto es inferior al valor de la moneda
+			j -= monedas[i];
+			usadas[i]++;
+		}
+		k++;
+		i = monedas.Largo -k -1 ;
+	}
 	return usadas;
 }
 
