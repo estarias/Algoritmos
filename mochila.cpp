@@ -65,20 +65,19 @@ void mochilaBacktracking(Puntero<Lista<Puntero<Item>>> items, int peso,
 			mejorValor = valor;
 			mejorSol = solActual->Clonar();
 		}
-		return;
+	}else{
+		Puntero<Item> it = items->Primero();
+		
+		items->BorrarPrimero();
+		for (int k = 0; k<=1 && it->ObtenerPeso()*k <= peso; k++){ // 0 o 1, va a ser mi k en este caso. 
+			if(k > 0)
+				solActual->Agregar(it);
+			mochilaBacktracking(items, peso - it->ObtenerPeso()*k, solActual, mejorSol, valor + it->ObtenerValor()*k, mejorValor);
+			if(k > 0)
+				solActual->Borrar(it);
+		}
+		items->Agregar(it);
 	}
-
-	Puntero<Item> it = items->Primero();
-	
-	items->BorrarPrimero();
-	for (int k = 0; k<=1 && it->ObtenerPeso()*k <= peso; k++){ // 0 o 1, va a ser mi k en este caso. 
-		if(k > 0)
-			solActual->Agregar(it);
-		mochilaBacktracking(items, peso - it->ObtenerPeso()*k, solActual, mejorSol, valor + it->ObtenerValor()*k, mejorValor);
-		if(k > 0)
-			solActual->Borrar(it);
-	}
-	items->Agregar(it);
 }
 
 
@@ -144,7 +143,7 @@ Array<nat> MochilaDinamicaElementosRepetidos(Array<nat> peso, Array<nat> valor, 
 				nat cant = m[i][j-peso[i]].cantidad;
 				nat val = m[i][j-peso[i]].valor;
 				
-				if (cantidad[i] < val){
+				if (val < cantidad[i]){
 					cant++;
 					val+= valor[i];
 				}

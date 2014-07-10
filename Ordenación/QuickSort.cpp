@@ -4,6 +4,8 @@ Por caso: O(n^2)
 Mejor caso: O(nLog(n)) (igual q merge sort) 
 Ref: http://www.fing.edu.uy/inco/cursos/prog3/wiki/uploads/Site/Analisis%20del%20problema%20de%20Sorting_v2.1.pdf
 
+Tipo de divide&conquer: Hard split easy join
+
 ***/
 
 void quickSort(Array<int> a, int ini, int fin){
