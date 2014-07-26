@@ -6,6 +6,11 @@ Ref: http://www.fing.edu.uy/inco/cursos/prog3/wiki/uploads/Site/Analisis%20del%2
 
 Tipo de divide&conquer: Hard split easy join
 
+Algoritmo:
+1. Elijo pivote
+2. Coloco a la izq del pivote los menores a él y a la derecha los mayores a él.
+3. Repetir recursivamente, las sub listas izq y la subs listas der, mientras tengan más de un elemento.
+
 ***/
 
 void quickSort(Array<int> a, int ini, int fin){
