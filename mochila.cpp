@@ -203,12 +203,14 @@ nat costoMin (nat origen, nat destino, nat n, Matriz<nat> g){
 	Matriz<nat> m(n,n, 0);
 	//for (int i=1, i<n; i++) C[i][i] = 0;
 	
-	for (nat i= 1; i<n; i++)
+	for (nat i= 1; i<n; i++){
 		for (nat j= 1; j<n; j++){
 			nat temp = INF;
 			for (int k= origen+1; k<n;k++)
-				temp := min(temp, g[origen][k] + C[k][destino]);
+				temp = min(temp, g[origen][k] + m[k][destino]);
             m[i][j] = temp;
 		}
-	return C[n][n];
+	}
+	//return m[n][n];
+	return m[origen][destino];
 }

@@ -16,8 +16,8 @@ Otra forma de explicarlo:
 
 
 **/
-void mergesort(Array<nat> a, Array<nat> b, nat izq, nat der)
-{
+
+void mergesort(Array<nat> a, Array<nat> b, nat izq, nat der){
     if(izq<der){
         nat pivot=(izq+der)/2;
         mergesort(a,b,izq,pivot);
@@ -53,7 +53,4 @@ T(1) = 1
 T(n) = 2T(n/2) + n
 						-->  T(n) = 4T(n/4) + 2n --> T(i) = 2^iT(n/2^i) + in --> n = 2^i --> i = nLogn --> T(n) = nLogn + n --> O(nLogn)
 T(n/2) = 2T(n/4) + n/2
-
-
-
 

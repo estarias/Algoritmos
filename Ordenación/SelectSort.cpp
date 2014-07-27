@@ -3,15 +3,9 @@ O(n^2)
 
 Agoritmo:
 
-1. Buscar el mínimo elemento de la lista
-2. Intercambiarlo con el primero
-3. Buscar el siguiente mínimo en el resto de la lista
-4. Intercambiarlo con el segundo
-
-Y en general:
-
-1.  Buscar el mínimo elemento entre una posición i y el final de la lista
-2. Intercambiar el mínimo con el elemento de la posición i
+1. selecciona el menor de los elementos de los N restantes desordenados, 
+2. y lo mueve al final de los ya ordenados. 
+3. Luego continúa la ejecución ordenando los N-1 restantes
 
 **/
 void SSort(int[] a){
