@@ -6,11 +6,12 @@ void itinerario(Grafo<Ciudad,Arco>> * g,Ciudad origen,Ciudad actual,float costoA
     if (caminoActual->Pertenece(actual)) return;
     if (noPasar->Pertenece(actual)) return;	
     if(costoActual<mejorCosto || costoActual==mejorCosto && cantCiudades < mejorCantCiuddades ||
-        costoActual==mejorCosto && cantCiudades == mejorCantCiuddades && tiempoActual <= mejorTiempo){
+        costoActual==mejorCosto && cantCiudades == mejorCantCiuddades && tiempoActual <= mejorTiempo){ //poda
         caminoActual->Agregar(actual);//colocarTentativamenteActualEnElCamino
         if(Pasar->Pertenece(actual)) ciudadPase=1;
         if(origen==actual && cantPase == Pasar->Largo(){ //llegueAlOrigen(origen,actual) && pasePorTodas(cantPase,Pasar)
-            if(encontreUnCaminoMejor(costoActual,cantCiudades,tiempoActual,mejorCosto,mejorCantCiuddades,mejorTiempo)
+           if(costoActual<mejorCosto || costoActual==mejorCosto && cantCiudades < mejorCantCiuddades ||
+				costoActual==mejorCosto && cantCiudades == mejorCantCiuddades && tiempoActual < mejorTiempo) //encontreMejorCamino
                 mejoresCaminos->Vaciar();
             mejorCosto=costoActual;
             mejorCantCiudades=cantCiudades;

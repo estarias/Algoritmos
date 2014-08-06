@@ -5,7 +5,7 @@ Elementos son las lineas, q tienen un precio y una distTotal. Tambien tengo dine
 * Sabores:
 ** MochilaDinamica 
 ** MochilaMem 
-** MochilaGredy 
+** MochilaGredy  (Backtracking) -> Ineficiencia: Se repite la solución de problemas, se recorren todas las posibilidades.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Dividir para conquistar
@@ -192,25 +192,3 @@ void MochilaBacktrackingElementosRepetidosEx(Array<Item> items, nat c, nat it,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-nat costoMin(nat i, nat j, nat k){
-	if (i==j) return 0;
-	if (k==0) return m[i][j];
-	return min(costoMin(i,k,k-1)+costoMin(k,j,k-1), costoMin(i,j, k-1));
-}
-
-
-nat costoMin (nat origen, nat destino, nat n, Matriz<nat> g){
-	Matriz<nat> m(n,n, 0);
-	//for (int i=1, i<n; i++) C[i][i] = 0;
-	
-	for (nat i= 1; i<n; i++){
-		for (nat j= 1; j<n; j++){
-			nat temp = INF;
-			for (int k= origen+1; k<n;k++)
-				temp = min(temp, g[origen][k] + m[k][destino]);
-            m[i][j] = temp;
-		}
-	}
-	//return m[n][n];
-	return m[origen][destino];
-}

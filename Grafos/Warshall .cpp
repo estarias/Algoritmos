@@ -1,9 +1,11 @@
 //Dice si hay una forma de ir de un vertice  a otro. 
+//Es un algoritmo de programaicón dinámica.
 
 /****************************************************
 Clausura transitiva
 Para todo x,y,z que pertenecen a V, 
 Si hayCamino(x,y) y hayCamino(x,y) entonces: hayCamino (x,z)
+
 /****************************************************/
 
 Matriz<bool> Warshall(Matriz <bool> g){

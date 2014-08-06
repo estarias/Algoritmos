@@ -2,6 +2,8 @@
 Àrbol de cubrimiento mínimo: Conjunto mín de aristas, para no perder conectividad y la suma de los costos de esas aristas sea el minimo.
 Agrega vértices que no pertenecen a la sol y otro sque si.
 
+El objetivo es unir TODOS los vértices
+
 //supondremos grafos no dirigidos en nuestro curso.
 
 Aplicaciones:
