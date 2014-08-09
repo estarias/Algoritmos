@@ -9,15 +9,15 @@ Si hayCamino(x,y) y hayCamino(x,y) entonces: hayCamino (x,z)
 /****************************************************/
 
 Matriz<bool> Warshall(Matriz <bool> g){
-    Matriz<bool> m(CANT, false);
+    Matriz<bool> m(n);
  
-    for(nat i = 0; i < CANT; i++)
-		for(nat j = 0; j < CANT; j++)
+    for(nat i = 0; i < n; i++)
+		for(nat j = 0; j < n; j++)
 			m[i][j] = g[i][j];
  
-    for(nat k = 0; k < CANT; k++)
-        for(nat i = 0; i < CANT; i++)
-            for(nat j = 0; j < CANT; j++)
+    for(nat k = 0; k < n; k++)
+        for(nat i = 0; i < n; i++)
+            for(nat j = 0; j < n; j++)
 				if (!m[i][j])
 					m[i][j] = m[i][k] && m[k][j]
 	return m;
@@ -35,17 +35,17 @@ bool existeCamino(Matriz<bool> g, int o, int d){
 Determina si un grafo es debilmente conexo
 /*****************************************************/
 bool esDebilmenteConexo(Matriz<bool> g){
-    Matriz<bool> m(CANT, false);
+    Matriz<bool> m(n);
  
-    #copio el grafo, y lo hago no dirigido
-    for(nat i = 0; i < CANT; i++)
-		for(nat j = 0; j < CANT; j++){
+    //copio el grafo, y lo hago no dirigido
+    for(nat i = 0; i < n; i++)
+		for(nat j = 0; j < n; j++){
 			m[i][j] = grafo[i][j];
             if (m[i][j])
 				m[j][i] = true;
 		}
 
-    #aplico warshall y verifico si M es completa
+    //plico warshall y verifico si M es completa
     return esCompleta(m);
 }
 

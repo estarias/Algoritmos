@@ -6,18 +6,15 @@ Es un algoritmo de programaicón dinámica.
 *****************************************************/
 
 Matriz<int> floyd(Matriz<int> g){
-	Matriz<int> m(CANT);
+	Matriz<int> m(n);
     
-    for(nat i = 0; i < CANT; i++)
-		for(nat j = 0; j < CANT; j++)
-			if (i == j) 
-				m[i][i] = 0;
-			else
-				m[i][j] = g[i][j];
+    for(nat i = 0; i < n; i++)
+		for(nat j = 0; j < n; j++)
+			m[i][j] = g[i][j];
  
-    for(nat k = 0; k < CANT; k++)
-        for(nat i = 0; i < CANT; i++)
-            for(nat j = 0; j < CANT; j++){
+    for(nat k = 0; k < n; k++)
+        for(nat i = 0; i < n; i++)
+            for(nat j = 0; j < n; j++){
                 int dt = m[i][k] + m[k][j];
                 if (dt < m[i][j])
                     m[i][j] = dt;
@@ -38,11 +35,11 @@ int MenorCoosto(Matriz<int> g, nat o, nat d){
 
 
 void floydCamino(Matriz<int> g, int o, int d){
-	Matriz<int> m(CANT);
-	Matriz<int> c(CANT);
+	Matriz<int> m(n);
+	Matriz<int> c(n);
     
-    for(nat i = 0; i < CANT; i++)
-		for(nat j = 0; j < CANT; j++){
+    for(nat i = 0; i < n; i++)
+		for(nat j = 0; j < n; j++){
 			if (i == j) 
 				m[i][i] = 0;
 			else
@@ -50,9 +47,9 @@ void floydCamino(Matriz<int> g, int o, int d){
 			c[i][j] = -1;
 		}
  
-    for(nat k = 0; k < CANT; k++)
-        for(nat i = 0; i < CANT; i++)
-            for(nat j = 0; j < CANT; j++){
+    for(nat k = 0; k < n; k++)
+        for(nat i = 0; i < n; i++)
+            for(nat j = 0; j < n; j++){
                 int dt = m[i][k] + m[k][j];
                 if (dt < m[i][j]){
                     m[i][j] = dt;
@@ -66,8 +63,8 @@ void floydCamino(Matriz<int> g, int o, int d){
 	mostrarCamino(o,d,c);
 }
 
-void mostrarCamino(int o, int d, Matriz<int, int> c){
-	int k=p[o][d];
+void mostrarCamino(int o, int d, Matriz<int> c){
+	int k=c[o][d];
 	if(k!=-1){
 		mostrarCamino(o,k,c);
 		cout << k;

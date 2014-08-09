@@ -40,7 +40,7 @@ Array<nat> DarCambioDin(Array<nat> monedas, nat monto){
 	for (nat i=0; i<monedas.Largo; i++){
 		for (nat j=0; i<monto+1; j++){
 			if (i==0)
-				m[0][j] = j/monedas[0];
+				m[i][j] = j/monedas[i];
 			else if(j< monedas[i])
 				m[i][j] = m[i-1][j];
 			else
