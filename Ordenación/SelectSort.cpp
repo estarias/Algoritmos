@@ -11,8 +11,8 @@ Agoritmo:
 void SSort(int[] a){
 	for (int i=1 i < n-1;i++){
 	    int min = i;
-	    for (int j=i+1; j < n){
-	        if (a[j] < a[minimo]){
+	    for (int j=i+1; j < n; j++){
+	        if (a[j] < a[min]){
 	            min = j;
 			}
 	    }

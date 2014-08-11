@@ -10,16 +10,20 @@ Repito este procedimiento hasta que me queden elementos por colocar.
 O(n^2)
 
 **/
-void ISort(int[] a, int N){
-	int temp;
-	for (int i=1;i<N; i++){
-		temp = a[i];
-		for (int j=1, i>0 && a[j-1] > temp; j--){
-			a[j] = a[j-1];
+
+void ISort (Array<int> a, int N){
+ 	int i, j;
+	for (i = 1; i < N; i++){
+		j = i;
+		while (j > 0 && a[j] < a[j-1]){
+			intercambio(a, j, j-1);
+			j--;
 		}
-		a[j] = temp;
 	}
 }
+
+
+
 
 Cáculo de orden en página 78.
 

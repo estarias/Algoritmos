@@ -1,26 +1,31 @@
-void itinerario(Grafo<Ciudad,Arco>> * g,Ciudad origen,Ciudad actual,float costoActual,int cantCiudades,int cantPase,int tiempoActual,Lista<Ciudad> * noPasar,Lista<Ciudad> * Pasar,
-    Lista<Ciudad> *caminoActual,float & mejorCosto, float & mejorCantCiuddades, int & mejorTiempo,
-    Lista<Lista<Ciudad>> * mejoresCaminos){
+void itinerario(Grafo<V,A>> * g,V origen,V actual,
+	float costoActual, int visitadasActual, int tiempoActual,
+	float & mejorCosto, float & visitadasMejor, int & mejorTiempo,
+	Lista<V> * noPasar, Lista<V> * Pasar,
+    Lista<V> * &caminoActual, Lista<Lista<V>> * &caminos, int visitadas){
     
     int ciudadPase=0;
     if (caminoActual->Pertenece(actual)) return;
     if (noPasar->Pertenece(actual)) return;	
-    if(costoActual<mejorCosto || costoActual==mejorCosto && cantCiudades < mejorCantCiuddades ||
-        costoActual==mejorCosto && cantCiudades == mejorCantCiuddades && tiempoActual <= mejorTiempo){ //poda
+    if(costoActual<mejorCosto || costoActual==mejorCosto && visitadasActual < visitadasMejor ||
+        costoActual==mejorCosto && visitadasActual == visitadasMejor && tiempoActual <= mejorTiempo){ //poda
         caminoActual->Agregar(actual);//colocarTentativamenteActualEnElCamino
         if(Pasar->Pertenece(actual)) ciudadPase=1;
-        if(origen==actual && cantPase == Pasar->Largo(){ //llegueAlOrigen(origen,actual) && pasePorTodas(cantPase,Pasar)
-           if(costoActual<mejorCosto || costoActual==mejorCosto && cantCiudades < mejorCantCiuddades ||
-				costoActual==mejorCosto && cantCiudades == mejorCantCiuddades && tiempoActual < mejorTiempo) //encontreMejorCamino
-                mejoresCaminos->Vaciar();
+        if(origen==actual && visitadas == Pasar->Largo(){ //llegueAlOrigen(origen,actual) && pasePorTodas(visitadas,Pasar)
+           if(costoActual<mejorCosto || costoActual==mejorCosto && visitadasActual < visitadasMejor ||
+				costoActual==mejorCosto && visitadasActual == visitadasMejor && tiempoActual < mejorTiempo) //encontreMejorCamino
+                caminos->Vaciar();
             mejorCosto=costoActual;
-            mejorCantCiudades=cantCiudades;
+            mejorCantCiudades=visitadasActual;
             mejorTiempo=tiempoActual;
-            mejoresCaminos->Agregar(caminoActual->Clon());
+            caminos->Agregar(caminoActual->Clon());
         }else{
-            foreach(c, g->Adyacentes(actual))
-                itinerario(origen,c,costoActual+costo(g,actual,c),cantiCiudades+1,cantPasa+ciudadPase,tiempoActual+tiempo(g,actual,c),
-                    noPasar,Pasar,caminoActual,mejorCosto,mejorCantCiudades,mejorTiempo);
+            foreach(w, g->Adyacentes(actual))
+                itinerario(g, origen,w,
+							costoActual+costo(g,actual,w),visitadasActual+1,tiempoActual+tiempo(g,actual,w),
+							mejorCosto,mejorCantCiudades,mejorTiempo,
+							noPasar,Pasar,
+							caminoActual,caminos, visitadas+ciudadPase);
             };
         }
         caminoActual->Borrar(actual)//retirarActualDelCamino

@@ -37,7 +37,7 @@ Puntero<Tabla<V,nodoDijkstra>> CaminoMasCorto(Grafo<V,A> * g, V origen, FuncionC
 		tabla->Agregar(v,nv);
 		
 		foreach(a, g->Adyacentes(v)){
-			nodoDijkstra na = tabla->Obtener(w);
+			nodoDijkstra na = tabla->Obtener(a);
 			nat costoAcumulado = nv.costo + fcosto->ObtenerCosto(v,a); 
 			if (costoAcumulado < na.costo){
 				na.costo = costoAcumulado;
